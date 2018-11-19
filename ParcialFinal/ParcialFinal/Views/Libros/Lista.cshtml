@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ParcialFinal.Models.LIBROS>
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listas Libros</h2>
+<p>
+    @Html.ActionLink("Create New", "Nueva")
+</p>
+
+<table id="ID_Libro" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lIBROS in Model)
+        {
+        <tr>
+            <td>@Html.ActionLink(lIBROS.Titulo_Libro, "Edit", "LIBROS", new { id = lIBROS.ID_Libro }, null)</td>
+
+            <td>@lIBROS.Autor_Libro</td>
+            <td>@lIBROS.ISBN_Libro</td>
+            <td>@Html.ActionLink("Eliminar", "Eliminar", "LIBROS", new { id = lIBROS.ID_Libro }, null)</td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+@section scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+
+            $("#ID_Lbro").DataTable();
+
+            $("#ID_Libro").on("click", ".js-delete", function () {
+                var button = $(this);
+                if (confirm("Seguro")) {
+                    $.ajax({
+
+                        url: "/LIBROS/Eliminar/" + button.attr("data-customer-id"),
+
+                        success: function () {
+                            button.parents("tr").remove();
+
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+
+}
